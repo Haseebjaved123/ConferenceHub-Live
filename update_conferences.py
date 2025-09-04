@@ -71,42 +71,83 @@ def load_csv_safe(filepath: str) -> pd.DataFrame:
         return pd.DataFrame(columns=COLUMNS)
 
 def fetch_openreview_conferences() -> pd.DataFrame:
-    """Fetch conference data from OpenReview API."""
+    """Fetch conference data from OpenReview API with comprehensive venue search."""
     rows = []
     try:
-        # OpenReview public API for venues
-        url = "https://api.openreview.net/venues"
-        response = requests.get(url, timeout=30)
+        # Multiple OpenReview API endpoints
+        endpoints = [
+            "https://api.openreview.net/venues",
+            "https://api.openreview.net/notes?invitation=*/-/Conference",
+            "https://api.openreview.net/notes?invitation=*/-/Workshop"
+        ]
         
-        if response.status_code == 200:
-            data = response.json()
-            venues = data.get("venues", [])
-            
-            for venue in venues[:50]:  # Limit to avoid too many results
-                name = venue.get("name", "")
-                if "2025" in name or "2024" in name:  # Focus on current/recent years
-                    rows.append({
-                        "ConferenceName": name,
-                        "AbstractDeadline": "",
-                        "PaperDeadline": "",
-                        "Notification": "",
-                        "CameraReady": "",
-                        "EventDate": "",
-                        "Location": "",
-                        "Website": f"https://openreview.net/group?id={venue.get('id', '')}",
-                        "AcceptanceRate": "",
-                        "Tags": "OpenReview",
-                        "Source": "openreview"
-                    })
+        for endpoint in endpoints:
+            try:
+                response = requests.get(endpoint, timeout=30)
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    if "venues" in data:
+                        venues = data.get("venues", [])
+                        for venue in venues[:100]:  # Increased limit
+                            name = venue.get("name", "")
+                            if any(year in name for year in ["2025", "2026", "2024"]):
+                                rows.append({
+                                    "ConferenceName": name,
+                                    "AbstractDeadline": "",
+                                    "PaperDeadline": "",
+                                    "Notification": "",
+                                    "CameraReady": "",
+                                    "EventDate": "",
+                                    "Location": "",
+                                    "Website": f"https://openreview.net/group?id={venue.get('id', '')}",
+                                    "AcceptanceRate": "",
+                                    "Tags": "OpenReview",
+                                    "Source": "openreview"
+                                })
+                    
+                    elif "notes" in data:
+                        notes = data.get("notes", [])
+                        for note in notes[:100]:
+                            content = note.get("content", {})
+                            title = content.get("title", "")
+                            if any(year in title for year in ["2025", "2026", "2024"]):
+                                rows.append({
+                                    "ConferenceName": title,
+                                    "AbstractDeadline": content.get("abstract_deadline", ""),
+                                    "PaperDeadline": content.get("paper_deadline", ""),
+                                    "Notification": content.get("notification", ""),
+                                    "CameraReady": content.get("camera_ready", ""),
+                                    "EventDate": content.get("event_date", ""),
+                                    "Location": content.get("location", ""),
+                                    "Website": f"https://openreview.net/forum?id={note.get('id', '')}",
+                                    "AcceptanceRate": "",
+                                    "Tags": "OpenReview",
+                                    "Source": "openreview"
+                                })
+                
+                time.sleep(1)  # Rate limiting
+            except Exception as e:
+                print(f"Warning: OpenReview endpoint {endpoint} failed: {e}")
+                continue
+                
     except Exception as e:
         print(f"Warning: OpenReview fetch failed: {e}")
     
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_wikicfp_conferences() -> pd.DataFrame:
-    """Fetch conference data from WikiCFP."""
+    """Fetch conference data from WikiCFP with comprehensive search."""
     rows = []
-    queries = ["machine learning", "computer vision", "artificial intelligence", "data mining"]
+    # Expanded search queries
+    queries = [
+        "machine learning", "computer vision", "artificial intelligence", "data mining",
+        "natural language processing", "deep learning", "neural networks", "robotics",
+        "software engineering", "human computer interaction", "information retrieval",
+        "computer graphics", "computer networks", "distributed systems", "databases",
+        "operating systems", "computer architecture", "programming languages",
+        "security", "cryptography", "bioinformatics", "computational biology"
+    ]
     
     for query in queries:
         try:
@@ -119,7 +160,7 @@ def fetch_wikicfp_conferences() -> pd.DataFrame:
                 # Find conference links
                 for link in soup.find_all('a', href=re.compile(r'eventid')):
                     title = link.get_text().strip()
-                    if title and ("2025" in title or "2024" in title):
+                    if title and any(year in title for year in ["2025", "2026", "2024"]):
                         cfp_url = "http://www.wikicfp.com" + link.get('href', '')
                         rows.append({
                             "ConferenceName": title,
@@ -138,6 +179,253 @@ def fetch_wikicfp_conferences() -> pd.DataFrame:
             time.sleep(1)  # Be respectful to the server
         except Exception as e:
             print(f"Warning: WikiCFP fetch failed for {query}: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_conference_alerts() -> pd.DataFrame:
+    """Fetch conference data from Conference Alerts API."""
+    rows = []
+    try:
+        # Conference Alerts API endpoints
+        endpoints = [
+            "https://conferencealerts.com/api/v1/conferences",
+            "https://conferencealerts.com/api/v1/workshops",
+            "https://conferencealerts.com/api/v1/symposiums"
+        ]
+        
+        for endpoint in endpoints:
+            try:
+                response = requests.get(endpoint, timeout=30)
+                if response.status_code == 200:
+                    data = response.json()
+                    conferences = data.get("conferences", [])
+                    
+                    for conf in conferences[:50]:
+                        title = conf.get("title", "")
+                        if any(year in title for year in ["2025", "2026", "2024"]):
+                            rows.append({
+                                "ConferenceName": title,
+                                "AbstractDeadline": conf.get("abstract_deadline", ""),
+                                "PaperDeadline": conf.get("paper_deadline", ""),
+                                "Notification": conf.get("notification_date", ""),
+                                "CameraReady": conf.get("camera_ready", ""),
+                                "EventDate": conf.get("event_date", ""),
+                                "Location": conf.get("location", ""),
+                                "Website": conf.get("website", ""),
+                                "AcceptanceRate": "",
+                                "Tags": "ConferenceAlerts",
+                                "Source": "conference_alerts"
+                            })
+                
+                time.sleep(1)
+            except Exception as e:
+                print(f"Warning: Conference Alerts endpoint {endpoint} failed: {e}")
+                continue
+                
+    except Exception as e:
+        print(f"Warning: Conference Alerts fetch failed: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_allconferences() -> pd.DataFrame:
+    """Fetch conference data from AllConferences.com."""
+    rows = []
+    try:
+        # AllConferences.com API
+        url = "https://allconferences.com/api/conferences"
+        response = requests.get(url, timeout=30)
+        
+        if response.status_code == 200:
+            data = response.json()
+            conferences = data.get("conferences", [])
+            
+            for conf in conferences[:100]:
+                title = conf.get("name", "")
+                if any(year in title for year in ["2025", "2026", "2024"]):
+                    rows.append({
+                        "ConferenceName": title,
+                        "AbstractDeadline": conf.get("abstract_deadline", ""),
+                        "PaperDeadline": conf.get("paper_deadline", ""),
+                        "Notification": conf.get("notification", ""),
+                        "CameraReady": conf.get("camera_ready", ""),
+                        "EventDate": conf.get("event_date", ""),
+                        "Location": conf.get("location", ""),
+                        "Website": conf.get("website", ""),
+                        "AcceptanceRate": "",
+                        "Tags": "AllConferences",
+                        "Source": "allconferences"
+                    })
+                    
+    except Exception as e:
+        print(f"Warning: AllConferences fetch failed: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_ieee_conferences() -> pd.DataFrame:
+    """Fetch conference data from IEEE Xplore."""
+    rows = []
+    try:
+        # IEEE Xplore API for conferences
+        url = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
+        params = {
+            "apikey": "your_ieee_api_key",  # You'll need to get this
+            "querytext": "conference",
+            "content_type": "Conferences",
+            "start_year": "2024",
+            "end_year": "2026"
+        }
+        
+        response = requests.get(url, params=params, timeout=30)
+        if response.status_code == 200:
+            data = response.json()
+            articles = data.get("articles", [])
+            
+            for article in articles[:50]:
+                title = article.get("title", "")
+                if "conference" in title.lower():
+                    rows.append({
+                        "ConferenceName": title,
+                        "AbstractDeadline": "",
+                        "PaperDeadline": "",
+                        "Notification": "",
+                        "CameraReady": "",
+                        "EventDate": article.get("publication_date", ""),
+                        "Location": "",
+                        "Website": article.get("pdf_url", ""),
+                        "AcceptanceRate": "",
+                        "Tags": "IEEE",
+                        "Source": "ieee"
+                    })
+                    
+    except Exception as e:
+        print(f"Warning: IEEE fetch failed: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_acm_conferences() -> pd.DataFrame:
+    """Fetch conference data from ACM Digital Library."""
+    rows = []
+    try:
+        # ACM Digital Library API
+        url = "https://dl.acm.org/api/v1/search"
+        params = {
+            "query": "conference",
+            "content_type": "conference",
+            "year": "2024-2026"
+        }
+        
+        response = requests.get(url, params=params, timeout=30)
+        if response.status_code == 200:
+            data = response.json()
+            results = data.get("results", [])
+            
+            for result in results[:50]:
+                title = result.get("title", "")
+                if "conference" in title.lower():
+                    rows.append({
+                        "ConferenceName": title,
+                        "AbstractDeadline": "",
+                        "PaperDeadline": "",
+                        "Notification": "",
+                        "CameraReady": "",
+                        "EventDate": result.get("publication_date", ""),
+                        "Location": "",
+                        "Website": result.get("url", ""),
+                        "AcceptanceRate": "",
+                        "Tags": "ACM",
+                        "Source": "acm"
+                    })
+                    
+    except Exception as e:
+        print(f"Warning: ACM fetch failed: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_researchgate_conferences() -> pd.DataFrame:
+    """Fetch conference data from ResearchGate."""
+    rows = []
+    try:
+        # ResearchGate API (limited access)
+        url = "https://api.researchgate.net/v2/conferences"
+        response = requests.get(url, timeout=30)
+        
+        if response.status_code == 200:
+            data = response.json()
+            conferences = data.get("conferences", [])
+            
+            for conf in conferences[:50]:
+                title = conf.get("title", "")
+                if any(year in title for year in ["2025", "2026", "2024"]):
+                    rows.append({
+                        "ConferenceName": title,
+                        "AbstractDeadline": conf.get("abstract_deadline", ""),
+                        "PaperDeadline": conf.get("paper_deadline", ""),
+                        "Notification": conf.get("notification", ""),
+                        "CameraReady": conf.get("camera_ready", ""),
+                        "EventDate": conf.get("event_date", ""),
+                        "Location": conf.get("location", ""),
+                        "Website": conf.get("website", ""),
+                        "AcceptanceRate": "",
+                        "Tags": "ResearchGate",
+                        "Source": "researchgate"
+                    })
+                    
+    except Exception as e:
+        print(f"Warning: ResearchGate fetch failed: {e}")
+    
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+def fetch_google_scholar_conferences() -> pd.DataFrame:
+    """Fetch conference data from Google Scholar."""
+    rows = []
+    try:
+        # Google Scholar search for conferences
+        queries = [
+            "conference 2025 machine learning",
+            "conference 2025 computer vision",
+            "conference 2025 artificial intelligence",
+            "conference 2025 data mining",
+            "conference 2025 natural language processing"
+        ]
+        
+        for query in queries:
+            try:
+                url = f"https://scholar.google.com/scholar?q={query}"
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+                response = requests.get(url, headers=headers, timeout=20)
+                
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.text, 'html.parser')
+                    
+                    # Parse Google Scholar results
+                    for result in soup.find_all('div', class_='gs_ri')[:20]:
+                        title_elem = result.find('h3', class_='gs_rt')
+                        if title_elem:
+                            title = title_elem.get_text().strip()
+                            if "conference" in title.lower():
+                                rows.append({
+                                    "ConferenceName": title,
+                                    "AbstractDeadline": "",
+                                    "PaperDeadline": "",
+                                    "Notification": "",
+                                    "CameraReady": "",
+                                    "EventDate": "",
+                                    "Location": "",
+                                    "Website": "",
+                                    "AcceptanceRate": "",
+                                    "Tags": "GoogleScholar",
+                                    "Source": "google_scholar"
+                                })
+                
+                time.sleep(2)  # Be respectful to Google
+            except Exception as e:
+                print(f"Warning: Google Scholar fetch failed for {query}: {e}")
+                continue
+                
+    except Exception as e:
+        print(f"Warning: Google Scholar fetch failed: {e}")
     
     return pd.DataFrame(rows, columns=COLUMNS)
 
@@ -310,15 +598,30 @@ def main():
     bk21_df = load_csv_safe(os.path.join(args.data_dir, "bk21_list.csv"))
     acc_df = load_csv_safe(os.path.join(args.data_dir, "acceptance_rates.csv"))
     
-    # Fetch from APIs
-    print("🌐 Fetching from APIs...")
+    # Fetch from all APIs
+    print("🌐 Fetching from multiple APIs...")
+    print("  📡 OpenReview...")
     openreview_df = fetch_openreview_conferences()
+    print("  📡 WikiCFP...")
     wikicfp_df = fetch_wikicfp_conferences()
+    print("  📡 Conference Alerts...")
+    conference_alerts_df = fetch_conference_alerts()
+    print("  📡 AllConferences...")
+    allconferences_df = fetch_allconferences()
+    print("  📡 IEEE Xplore...")
+    ieee_df = fetch_ieee_conferences()
+    print("  📡 ACM Digital Library...")
+    acm_df = fetch_acm_conferences()
+    print("  📡 ResearchGate...")
+    researchgate_df = fetch_researchgate_conferences()
+    print("  📡 Google Scholar...")
+    google_scholar_df = fetch_google_scholar_conferences()
     
     # Combine all sources
     print("🔗 Combining data sources...")
     all_conferences = pd.concat([
-        manual_df, openreview_df, wikicfp_df
+        manual_df, openreview_df, wikicfp_df, conference_alerts_df,
+        allconferences_df, ieee_df, acm_df, researchgate_df, google_scholar_df
     ], ignore_index=True)
     
     # Clean and process data
@@ -346,6 +649,8 @@ def main():
     
     print(f"✅ Complete! Found {len(upcoming_df)} upcoming conferences")
     print(f"📊 Sources: {len(manual_df)} manual, {len(openreview_df)} OpenReview, {len(wikicfp_df)} WikiCFP")
+    print(f"📊 Additional: {len(conference_alerts_df)} ConferenceAlerts, {len(allconferences_df)} AllConferences")
+    print(f"📊 Academic: {len(ieee_df)} IEEE, {len(acm_df)} ACM, {len(researchgate_df)} ResearchGate, {len(google_scholar_df)} GoogleScholar")
 
 if __name__ == "__main__":
     main()

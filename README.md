@@ -20,7 +20,15 @@ Conference Name | Abstract Deadline | Paper Deadline | Notification | Camera-Rea
 - **Manual Seeds**: Curated list of important conferences
 - **BK21 List**: BK21-approved venues for Korean researchers  
 - **Acceptance Rates**: Historical acceptance rate data
-- **APIs**: OpenReview, WikiCFP, and official conference sites
+- **Live APIs**: 
+  - OpenReview.net (comprehensive venue search)
+  - WikiCFP (expanded field coverage)
+  - Conference Alerts (workshops & symposiums)
+  - AllConferences.com (global conference database)
+  - IEEE Xplore (academic conferences)
+  - ACM Digital Library (computer science venues)
+  - ResearchGate (research community events)
+  - Google Scholar (academic conference search)
 - **Auto-filtering**: Past deadlines automatically hidden
 
 ## How It Works
