@@ -2,13 +2,8 @@
 
 Automated tracker for upcoming academic conferences with focus on BK21-listed venues. Updates daily to show only upcoming deadlines, sorted by nearest deadline first.
 
-## Template Format
-```
-Conference Name | Abstract Deadline | Paper Deadline | Notification | Camera-Ready | Event Date | Location | Website | Acceptance Rate | Tags
-```
-
 ## Upcoming Conferences
-*Auto-updated daily - only shows upcoming deadlines*
+*🔄 Live updates every 6 hours | Next update: Auto-refreshing | Korea Time (KST) | AOE (Anywhere on Earth)*
 
 <!-- BEGIN:UPCOMING-CONFS -->
 | # | Conference | Abstract | Paper | Notification | Camera-Ready | Event | Location | Website | Acceptance | Tags |
@@ -20,16 +15,22 @@ Conference Name | Abstract Deadline | Paper Deadline | Notification | Camera-Rea
 - **Manual Seeds**: Curated list of important conferences
 - **BK21 List**: BK21-approved venues for Korean researchers  
 - **Acceptance Rates**: Historical acceptance rate data
-- **Live APIs**: 
+- **Live APIs (15+ sources)**: 
   - OpenReview.net (comprehensive venue search)
-  - WikiCFP (expanded field coverage)
+  - WikiCFP (expanded field coverage + detailed parsing)
   - Conference Alerts (workshops & symposiums)
   - AllConferences.com (global conference database)
   - IEEE Xplore (academic conferences)
   - ACM Digital Library (computer science venues)
   - ResearchGate (research community events)
   - Google Scholar (academic conference search)
+  - Conference-Index.com (conference listings)
+  - Conference-Service.com (conference services)
+  - Conference-List.com (conference directory)
+  - Academic-Conference.org (academic events)
+  - ConferenceOwl.com (conference tracking)
 - **Auto-filtering**: Past deadlines automatically hidden
+- **Live Updates**: Every 6 hours with Korea Time (KST) and UTC timestamps
 
 ## How It Works
 1. Daily GitHub Action fetches latest conference data

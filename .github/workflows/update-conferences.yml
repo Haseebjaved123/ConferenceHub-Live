@@ -2,8 +2,12 @@ name: Update Conferences
 
 on:
   schedule:
-    # Run daily at 3:00 AM UTC (12:00 PM KST)
-    - cron: '0 3 * * *'
+    # Run every 6 hours for live updates
+    - cron: '0 */6 * * *'  # Every 6 hours
+    - cron: '0 0 * * *'    # Daily at midnight UTC (9 AM KST)
+    - cron: '0 6 * * *'    # Daily at 6 AM UTC (3 PM KST)
+    - cron: '0 12 * * *'   # Daily at noon UTC (9 PM KST)
+    - cron: '0 18 * * *'   # Daily at 6 PM UTC (3 AM KST next day)
   workflow_dispatch: # Allow manual trigger
 
 jobs:
