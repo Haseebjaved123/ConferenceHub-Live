@@ -1,0 +1,42 @@
+Acronym,FullName,Field,Ranking
+ICML,International Conference on Machine Learning,Machine Learning,A+
+NeurIPS,Conference on Neural Information Processing Systems,Machine Learning,A+
+AAAI,AAAI Conference on Artificial Intelligence,Artificial Intelligence,A+
+IJCAI,International Joint Conference on Artificial Intelligence,Artificial Intelligence,A+
+CVPR,Computer Vision and Pattern Recognition,Computer Vision,A+
+ECCV,European Conference on Computer Vision,Computer Vision,A+
+ICCV,International Conference on Computer Vision,Computer Vision,A+
+ICLR,International Conference on Learning Representations,Machine Learning,A+
+ACL,Association for Computational Linguistics,Natural Language Processing,A+
+EMNLP,Empirical Methods in Natural Language Processing,Natural Language Processing,A+
+NAACL,North American Chapter of the ACL,Natural Language Processing,A
+CoNLL,Conference on Computational Natural Language Learning,Natural Language Processing,A
+TACL,Transactions of the Association for Computational Linguistics,Natural Language Processing,A
+ICDM,International Conference on Data Mining,Data Mining,A+
+KDD,Knowledge Discovery and Data Mining,Data Mining,A+
+WWW,International World Wide Web Conference,Web Technologies,A+
+SIGIR,Special Interest Group on Information Retrieval,Information Retrieval,A+
+ICSE,International Conference on Software Engineering,Software Engineering,A+
+FSE,Foundations of Software Engineering,Software Engineering,A
+ASE,Automated Software Engineering,Software Engineering,A
+SIGCOMM,ACM SIGCOMM Conference,Computer Networks,A+
+INFOCOM,IEEE International Conference on Computer Communications,Computer Networks,A+
+NSDI,Networked Systems Design and Implementation,Computer Networks,A
+OSDI,Operating Systems Design and Implementation,Operating Systems,A+
+SOSP,Symposium on Operating Systems Principles,Operating Systems,A+
+FAST,File and Storage Technologies,Storage Systems,A
+ISCA,International Symposium on Computer Architecture,Computer Architecture,A+
+MICRO,International Symposium on Microarchitecture,Computer Architecture,A+
+ASPLOS,Architectural Support for Programming Languages and Operating Systems,Computer Architecture,A+
+PLDI,Programming Language Design and Implementation,Programming Languages,A+
+POPL,Principles of Programming Languages,Programming Languages,A+
+ICFP,International Conference on Functional Programming,Programming Languages,A
+OOPSLA,Object-Oriented Programming Systems Languages and Applications,Programming Languages,A
+CHI,Conference on Human Factors in Computing Systems,Human-Computer Interaction,A+
+UIST,User Interface Software and Technology,Human-Computer Interaction,A
+UbiComp,Ubiquitous Computing,Human-Computer Interaction,A
+MobiSys,Mobile Systems Applications and Services,Mobile Computing,A
+MobiCom,Mobile Computing and Networking,Mobile Computing,A+
+SenSys,Embedded Networked Sensor Systems,Sensor Networks,A
+INFOCOM,IEEE International Conference on Computer Communications,Networking,A+
+NSDI,Networked Systems Design and Implementation,Networking,A

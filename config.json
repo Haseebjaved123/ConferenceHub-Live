@@ -1,0 +1,31 @@
+{
+  "data_sources": {
+    "manual_seeds": "data/manual_seeds.csv",
+    "bk21_list": "data/bk21_list.csv", 
+    "acceptance_rates": "data/acceptance_rates.csv"
+  },
+  "apis": {
+    "openreview": {
+      "enabled": true,
+      "timeout": 30,
+      "max_venues": 50
+    },
+    "wikicfp": {
+      "enabled": true,
+      "timeout": 20,
+      "queries": ["machine learning", "computer vision", "artificial intelligence", "data mining"],
+      "delay_between_requests": 1
+    }
+  },
+  "filtering": {
+    "min_days_ahead": 0,
+    "max_days_ahead": 365,
+    "include_past_events": false
+  },
+  "output": {
+    "readme_path": "README.md",
+    "max_conferences_display": 50,
+    "truncate_long_names": true,
+    "max_name_length": 60
+  }
+}

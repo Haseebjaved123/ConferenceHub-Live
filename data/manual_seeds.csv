@@ -1,0 +1,16 @@
+ConferenceName,AbstractDeadline,PaperDeadline,Notification,CameraReady,EventDate,Location,Website,AcceptanceRate,Tags,Source
+"International Conference on Machine Learning (ICML)",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-07-21,Philadelphia USA,https://icml.cc/Conferences/2025,2024:26%,BK21,manual
+"Conference on Neural Information Processing Systems (NeurIPS)",2025-05-15,2025-05-22,2025-09-15,2025-10-15,2025-12-08,Vancouver Canada,https://neurips.cc/Conferences/2025,2024:25.8%,BK21,manual
+"AAAI Conference on Artificial Intelligence",2025-08-15,2025-08-22,2025-11-15,2025-12-15,2026-02-22,Seattle USA,https://aaai.org/aaai-conference/,2024:23.5%,BK21,manual
+"International Joint Conference on Artificial Intelligence (IJCAI)",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-08-09,Seoul Korea,https://ijcai.org/,2024:15.2%,BK21,manual
+"Computer Vision and Pattern Recognition (CVPR)",2025-11-15,2025-11-22,2026-02-15,2026-03-15,2026-06-17,Seattle USA,https://cvpr2026.thecvf.com/,2024:22.1%,BK21,manual
+"International Conference on Computer Vision (ICCV)",2025-03-15,2025-03-22,2025-06-15,2025-07-15,2025-10-04,Paris France,https://iccv2025.thecvf.com/,2024:21.3%,BK21,manual
+"European Conference on Computer Vision (ECCV)",2025-02-15,2025-02-22,2025-05-15,2025-06-15,2025-09-29,Milan Italy,https://eccv2024.ecva.net/,2024:20.8%,BK21,manual
+"International Conference on Learning Representations (ICLR)",2025-09-15,2025-09-22,2025-12-15,2026-01-15,2026-05-04,Vienna Austria,https://iclr.cc/Conferences/2026,2024:31.8%,BK21,manual
+"Association for Computational Linguistics (ACL)",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-07-28,Bangkok Thailand,https://2025.aclweb.org/,2024:19.2%,BK21,manual
+"Empirical Methods in Natural Language Processing (EMNLP)",2025-05-15,2025-05-22,2025-08-15,2025-09-15,2025-11-17,Singapore,https://2025.emnlp.org/,2024:18.7%,BK21,manual
+"International Conference on Data Mining (ICDM)",2025-06-10,2025-06-17,2025-08-25,2025-09-20,2025-11-29,Shenzhen China,https://icdm2025.org/,2024:18%,TopTier,manual
+"Knowledge Discovery and Data Mining (KDD)",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-08-24,Singapore,https://kdd.org/kdd2025/,2024:16.5%,TopTier,manual
+"International World Wide Web Conference (WWW)",2025-10-15,2025-10-22,2026-01-15,2026-02-15,2026-05-13,Singapore,https://www2026.thewebconf.org/,2024:17.2%,TopTier,manual
+"International Conference on Software Engineering (ICSE)",2025-08-15,2025-08-22,2025-11-15,2025-12-15,2026-05-16,Melbourne Australia,https://conf.researchr.org/home/icse-2026,2024:19.8%,TopTier,manual
+"ACM SIGCOMM Conference",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-08-18,London UK,https://conferences.sigcomm.org/sigcomm/2025/,2024:14.2%,TopTier,manual
