@@ -648,9 +648,19 @@ def main():
     parser.add_argument("--data-dir", default=DATA_DIR, help="Data directory path")
     args = parser.parse_args()
     
-    print("🔄 Starting conference update...")
+    print("🔄 Starting real-time conference update...")
     
-    # Load data sources
+    # Use real-time fetcher for accurate data
+    try:
+        from real_time_fetcher import update_readme_with_real_data
+        print("📡 Using real-time fetcher for accurate data...")
+        update_readme_with_real_data()
+        print("✅ Real-time update completed successfully!")
+        return
+    except ImportError:
+        print("⚠️ Real-time fetcher not available, using fallback method...")
+    
+    # Fallback to original method
     print("📂 Loading data sources...")
     manual_df = load_csv_safe(os.path.join(args.data_dir, "manual_seeds.csv"))
     bk21_df = load_csv_safe(os.path.join(args.data_dir, "bk21_list.csv"))
