@@ -12,10 +12,10 @@ Automated tracker for upcoming academic conferences with focus on BK21-listed ve
 <!-- END:UPCOMING-CONFS -->
 
 ## Data Sources
-- **Manual Seeds**: Curated list of important conferences
+- **Manual Seeds**: 50+ curated top-tier conferences with real deadlines
 - **BK21 List**: BK21-approved venues for Korean researchers  
 - **Acceptance Rates**: Historical acceptance rate data
-- **Live APIs (15+ sources)**: 
+- **Live APIs (8 real sources)**: 
   - OpenReview.net (comprehensive venue search)
   - WikiCFP (expanded field coverage + detailed parsing)
   - Conference Alerts (workshops & symposiums)
@@ -24,11 +24,6 @@ Automated tracker for upcoming academic conferences with focus on BK21-listed ve
   - ACM Digital Library (computer science venues)
   - ResearchGate (research community events)
   - Google Scholar (academic conference search)
-  - Conference-Index.com (conference listings)
-  - Conference-Service.com (conference services)
-  - Conference-List.com (conference directory)
-  - Academic-Conference.org (academic events)
-  - ConferenceOwl.com (conference tracking)
 - **Auto-filtering**: Past deadlines automatically hidden
 - **Live Updates**: Every 6 hours with Korea Time (KST) and UTC timestamps
 

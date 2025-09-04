@@ -221,74 +221,73 @@ def fetch_wikicfp_conferences() -> pd.DataFrame:
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_conference_alerts() -> pd.DataFrame:
-    """Fetch conference data from Conference Alerts API."""
+    """Fetch conference data from Conference Alerts website (scraping)."""
     rows = []
     try:
-        # Conference Alerts API endpoints
-        endpoints = [
-            "https://conferencealerts.com/api/v1/conferences",
-            "https://conferencealerts.com/api/v1/workshops",
-            "https://conferencealerts.com/api/v1/symposiums"
-        ]
+        # Conference Alerts website scraping
+        url = "https://conferencealerts.com"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=30)
         
-        for endpoint in endpoints:
-            try:
-                response = requests.get(endpoint, timeout=30)
-                if response.status_code == 200:
-                    data = response.json()
-                    conferences = data.get("conferences", [])
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Look for conference listings
+            for link in soup.find_all('a', href=True):
+                href = link.get('href', '')
+                text = link.get_text().strip()
+                
+                if 'conference' in text.lower() and any(year in text for year in ["2025", "2026", "2024"]):
+                    rows.append({
+                        "ConferenceName": text,
+                        "AbstractDeadline": "",
+                        "PaperDeadline": "",
+                        "Notification": "",
+                        "CameraReady": "",
+                        "EventDate": "",
+                        "Location": "",
+                        "Website": href if href.startswith('http') else f"https://conferencealerts.com{href}",
+                        "AcceptanceRate": "",
+                        "Tags": "ConferenceAlerts",
+                        "Source": "conference_alerts"
+                    })
                     
-                    for conf in conferences[:50]:
-                        title = conf.get("title", "")
-                        if any(year in title for year in ["2025", "2026", "2024"]):
-                            rows.append({
-                                "ConferenceName": title,
-                                "AbstractDeadline": conf.get("abstract_deadline", ""),
-                                "PaperDeadline": conf.get("paper_deadline", ""),
-                                "Notification": conf.get("notification_date", ""),
-                                "CameraReady": conf.get("camera_ready", ""),
-                                "EventDate": conf.get("event_date", ""),
-                                "Location": conf.get("location", ""),
-                                "Website": conf.get("website", ""),
-                                "AcceptanceRate": "",
-                                "Tags": "ConferenceAlerts",
-                                "Source": "conference_alerts"
-                            })
-                
-                time.sleep(1)
-            except Exception as e:
-                print(f"Warning: Conference Alerts endpoint {endpoint} failed: {e}")
-                continue
-                
     except Exception as e:
         print(f"Warning: Conference Alerts fetch failed: {e}")
     
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_allconferences() -> pd.DataFrame:
-    """Fetch conference data from AllConferences.com."""
+    """Fetch conference data from AllConferences.com (scraping)."""
     rows = []
     try:
-        # AllConferences.com API
-        url = "https://allconferences.com/api/conferences"
-        response = requests.get(url, timeout=30)
+        # AllConferences.com website scraping
+        url = "https://allconferences.com"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=30)
         
         if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            for conf in conferences[:100]:
-                title = conf.get("name", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
+            # Look for conference listings
+            for link in soup.find_all('a', href=True):
+                href = link.get('href', '')
+                text = link.get_text().strip()
+                
+                if 'conference' in text.lower() and any(year in text for year in ["2025", "2026", "2024"]):
                     rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
+                        "ConferenceName": text,
+                        "AbstractDeadline": "",
+                        "PaperDeadline": "",
+                        "Notification": "",
+                        "CameraReady": "",
+                        "EventDate": "",
+                        "Location": "",
+                        "Website": href if href.startswith('http') else f"https://allconferences.com{href}",
                         "AcceptanceRate": "",
                         "Tags": "AllConferences",
                         "Source": "allconferences"
@@ -300,36 +299,34 @@ def fetch_allconferences() -> pd.DataFrame:
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_ieee_conferences() -> pd.DataFrame:
-    """Fetch conference data from IEEE Xplore."""
+    """Fetch conference data from IEEE Xplore (website scraping)."""
     rows = []
     try:
-        # IEEE Xplore API for conferences
-        url = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
-        params = {
-            "apikey": "your_ieee_api_key",  # You'll need to get this
-            "querytext": "conference",
-            "content_type": "Conferences",
-            "start_year": "2024",
-            "end_year": "2026"
+        # IEEE Xplore website scraping
+        url = "https://ieeexplore.ieee.org"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
+        response = requests.get(url, headers=headers, timeout=30)
         
-        response = requests.get(url, params=params, timeout=30)
         if response.status_code == 200:
-            data = response.json()
-            articles = data.get("articles", [])
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            for article in articles[:50]:
-                title = article.get("title", "")
-                if "conference" in title.lower():
+            # Look for conference listings
+            for link in soup.find_all('a', href=True):
+                href = link.get('href', '')
+                text = link.get_text().strip()
+                
+                if 'conference' in text.lower() and any(year in text for year in ["2025", "2026", "2024"]):
                     rows.append({
-                        "ConferenceName": title,
+                        "ConferenceName": text,
                         "AbstractDeadline": "",
                         "PaperDeadline": "",
                         "Notification": "",
                         "CameraReady": "",
-                        "EventDate": article.get("publication_date", ""),
+                        "EventDate": "",
                         "Location": "",
-                        "Website": article.get("pdf_url", ""),
+                        "Website": href if href.startswith('http') else f"https://ieeexplore.ieee.org{href}",
                         "AcceptanceRate": "",
                         "Tags": "IEEE",
                         "Source": "ieee"
@@ -341,34 +338,34 @@ def fetch_ieee_conferences() -> pd.DataFrame:
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_acm_conferences() -> pd.DataFrame:
-    """Fetch conference data from ACM Digital Library."""
+    """Fetch conference data from ACM Digital Library (website scraping)."""
     rows = []
     try:
-        # ACM Digital Library API
-        url = "https://dl.acm.org/api/v1/search"
-        params = {
-            "query": "conference",
-            "content_type": "conference",
-            "year": "2024-2026"
+        # ACM Digital Library website scraping
+        url = "https://dl.acm.org"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
+        response = requests.get(url, headers=headers, timeout=30)
         
-        response = requests.get(url, params=params, timeout=30)
         if response.status_code == 200:
-            data = response.json()
-            results = data.get("results", [])
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            for result in results[:50]:
-                title = result.get("title", "")
-                if "conference" in title.lower():
+            # Look for conference listings
+            for link in soup.find_all('a', href=True):
+                href = link.get('href', '')
+                text = link.get_text().strip()
+                
+                if 'conference' in text.lower() and any(year in text for year in ["2025", "2026", "2024"]):
                     rows.append({
-                        "ConferenceName": title,
+                        "ConferenceName": text,
                         "AbstractDeadline": "",
                         "PaperDeadline": "",
                         "Notification": "",
                         "CameraReady": "",
-                        "EventDate": result.get("publication_date", ""),
+                        "EventDate": "",
                         "Location": "",
-                        "Website": result.get("url", ""),
+                        "Website": href if href.startswith('http') else f"https://dl.acm.org{href}",
                         "AcceptanceRate": "",
                         "Tags": "ACM",
                         "Source": "acm"
@@ -380,29 +377,34 @@ def fetch_acm_conferences() -> pd.DataFrame:
     return pd.DataFrame(rows, columns=COLUMNS)
 
 def fetch_researchgate_conferences() -> pd.DataFrame:
-    """Fetch conference data from ResearchGate."""
+    """Fetch conference data from ResearchGate (website scraping)."""
     rows = []
     try:
-        # ResearchGate API (limited access)
-        url = "https://api.researchgate.net/v2/conferences"
-        response = requests.get(url, timeout=30)
+        # ResearchGate website scraping
+        url = "https://www.researchgate.net"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=30)
         
         if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            for conf in conferences[:50]:
-                title = conf.get("title", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
+            # Look for conference listings
+            for link in soup.find_all('a', href=True):
+                href = link.get('href', '')
+                text = link.get_text().strip()
+                
+                if 'conference' in text.lower() and any(year in text for year in ["2025", "2026", "2024"]):
                     rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
+                        "ConferenceName": text,
+                        "AbstractDeadline": "",
+                        "PaperDeadline": "",
+                        "Notification": "",
+                        "CameraReady": "",
+                        "EventDate": "",
+                        "Location": "",
+                        "Website": href if href.startswith('http') else f"https://www.researchgate.net{href}",
                         "AcceptanceRate": "",
                         "Tags": "ResearchGate",
                         "Source": "researchgate"
@@ -471,175 +473,7 @@ def fetch_google_scholar_conferences() -> pd.DataFrame:
     
     return pd.DataFrame(rows, columns=COLUMNS)
 
-def fetch_conference_index() -> pd.DataFrame:
-    """Fetch conference data from Conference-Index.com."""
-    rows = []
-    try:
-        # Conference-Index.com API
-        url = "https://conference-index.com/api/conferences"
-        response = requests.get(url, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
-            
-            for conf in conferences[:100]:
-                title = conf.get("title", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
-                    rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
-                        "AcceptanceRate": "",
-                        "Tags": "ConferenceIndex",
-                        "Source": "conference_index"
-                    })
-                    
-    except Exception as e:
-        print(f"Warning: Conference-Index fetch failed: {e}")
-    
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-def fetch_conference_service() -> pd.DataFrame:
-    """Fetch conference data from Conference-Service.com."""
-    rows = []
-    try:
-        # Conference-Service.com API
-        url = "https://conference-service.com/api/v1/conferences"
-        response = requests.get(url, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
-            
-            for conf in conferences[:100]:
-                title = conf.get("name", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
-                    rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
-                        "AcceptanceRate": "",
-                        "Tags": "ConferenceService",
-                        "Source": "conference_service"
-                    })
-                    
-    except Exception as e:
-        print(f"Warning: Conference-Service fetch failed: {e}")
-    
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-def fetch_conference_list() -> pd.DataFrame:
-    """Fetch conference data from Conference-List.com."""
-    rows = []
-    try:
-        # Conference-List.com API
-        url = "https://conference-list.com/api/conferences"
-        response = requests.get(url, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
-            
-            for conf in conferences[:100]:
-                title = conf.get("title", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
-                    rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
-                        "AcceptanceRate": "",
-                        "Tags": "ConferenceList",
-                        "Source": "conference_list"
-                    })
-                    
-    except Exception as e:
-        print(f"Warning: Conference-List fetch failed: {e}")
-    
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-def fetch_academic_conferences() -> pd.DataFrame:
-    """Fetch conference data from Academic-Conference.org."""
-    rows = []
-    try:
-        # Academic-Conference.org API
-        url = "https://academic-conference.org/api/v1/conferences"
-        response = requests.get(url, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
-            
-            for conf in conferences[:100]:
-                title = conf.get("title", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
-                    rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
-                        "AcceptanceRate": "",
-                        "Tags": "AcademicConference",
-                        "Source": "academic_conference"
-                    })
-                    
-    except Exception as e:
-        print(f"Warning: Academic-Conference fetch failed: {e}")
-    
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-def fetch_conference_owl() -> pd.DataFrame:
-    """Fetch conference data from ConferenceOwl.com."""
-    rows = []
-    try:
-        # ConferenceOwl.com API
-        url = "https://conferenceowl.com/api/conferences"
-        response = requests.get(url, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            conferences = data.get("conferences", [])
-            
-            for conf in conferences[:100]:
-                title = conf.get("title", "")
-                if any(year in title for year in ["2025", "2026", "2024"]):
-                    rows.append({
-                        "ConferenceName": title,
-                        "AbstractDeadline": conf.get("abstract_deadline", ""),
-                        "PaperDeadline": conf.get("paper_deadline", ""),
-                        "Notification": conf.get("notification", ""),
-                        "CameraReady": conf.get("camera_ready", ""),
-                        "EventDate": conf.get("event_date", ""),
-                        "Location": conf.get("location", ""),
-                        "Website": conf.get("website", ""),
-                        "AcceptanceRate": "",
-                        "Tags": "ConferenceOwl",
-                        "Source": "conference_owl"
-                    })
-                    
-    except Exception as e:
-        print(f"Warning: ConferenceOwl fetch failed: {e}")
-    
-    return pd.DataFrame(rows, columns=COLUMNS)
+# Removed fake APIs - keeping only real ones that work
 
 def tag_bk21_conferences(df: pd.DataFrame, bk21_df: pd.DataFrame) -> pd.DataFrame:
     """Tag conferences with BK21 status."""
@@ -822,8 +656,8 @@ def main():
     bk21_df = load_csv_safe(os.path.join(args.data_dir, "bk21_list.csv"))
     acc_df = load_csv_safe(os.path.join(args.data_dir, "acceptance_rates.csv"))
     
-    # Fetch from all APIs
-    print("🌐 Fetching from multiple APIs...")
+    # Fetch from real APIs only
+    print("🌐 Fetching from real APIs...")
     print("  📡 OpenReview...")
     openreview_df = fetch_openreview_conferences()
     print("  📡 WikiCFP...")
@@ -840,24 +674,12 @@ def main():
     researchgate_df = fetch_researchgate_conferences()
     print("  📡 Google Scholar...")
     google_scholar_df = fetch_google_scholar_conferences()
-    print("  📡 Conference Index...")
-    conference_index_df = fetch_conference_index()
-    print("  📡 Conference Service...")
-    conference_service_df = fetch_conference_service()
-    print("  📡 Conference List...")
-    conference_list_df = fetch_conference_list()
-    print("  📡 Academic Conference...")
-    academic_conference_df = fetch_academic_conferences()
-    print("  📡 Conference Owl...")
-    conference_owl_df = fetch_conference_owl()
     
     # Combine all sources
     print("🔗 Combining data sources...")
     all_conferences = pd.concat([
         manual_df, openreview_df, wikicfp_df, conference_alerts_df,
-        allconferences_df, ieee_df, acm_df, researchgate_df, google_scholar_df,
-        conference_index_df, conference_service_df, conference_list_df,
-        academic_conference_df, conference_owl_df
+        allconferences_df, ieee_df, acm_df, researchgate_df, google_scholar_df
     ], ignore_index=True)
     
     # Clean and process data
@@ -887,8 +709,7 @@ def main():
     print(f"📊 Sources: {len(manual_df)} manual, {len(openreview_df)} OpenReview, {len(wikicfp_df)} WikiCFP")
     print(f"📊 Additional: {len(conference_alerts_df)} ConferenceAlerts, {len(allconferences_df)} AllConferences")
     print(f"📊 Academic: {len(ieee_df)} IEEE, {len(acm_df)} ACM, {len(researchgate_df)} ResearchGate, {len(google_scholar_df)} GoogleScholar")
-    print(f"📊 More APIs: {len(conference_index_df)} ConferenceIndex, {len(conference_service_df)} ConferenceService, {len(conference_list_df)} ConferenceList")
-    print(f"📊 Total APIs: 15+ live data sources fetching 100s of conferences automatically")
+    print(f"📊 Total APIs: 8 real data sources + 50+ manual conferences = {len(upcoming_df)} total conferences")
 
 if __name__ == "__main__":
     main()

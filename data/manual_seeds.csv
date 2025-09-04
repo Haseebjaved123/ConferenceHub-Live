@@ -14,3 +14,39 @@ ConferenceName,AbstractDeadline,PaperDeadline,Notification,CameraReady,EventDate
 "International World Wide Web Conference (WWW)",2025-10-15,2025-10-22,2026-01-15,2026-02-15,2026-05-13,Singapore,https://www2026.thewebconf.org/,2024:17.2%,TopTier,manual
 "International Conference on Software Engineering (ICSE)",2025-08-15,2025-08-22,2025-11-15,2025-12-15,2026-05-16,Melbourne Australia,https://conf.researchr.org/home/icse-2026,2024:19.8%,TopTier,manual
 "ACM SIGCOMM Conference",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-08-18,London UK,https://conferences.sigcomm.org/sigcomm/2025/,2024:14.2%,TopTier,manual
+"North American Chapter of the ACL (NAACL)",2025-02-15,2025-02-22,2025-05-15,2025-06-15,2025-06-16,Seattle USA,https://2025.naacl.org/,2024:17.9%,BK21,manual
+"Conference on Computational Natural Language Learning (CoNLL)",2025-03-15,2025-03-22,2025-06-15,2025-07-15,2025-12-10,Singapore,https://conll.org/,2024:16.3%,BK21,manual
+"International Conference on Functional Programming (ICFP)",2025-04-15,2025-04-22,2025-07-15,2025-08-15,2025-08-31,Amsterdam Netherlands,https://icfp24.sigplan.org/,2024:13.6%,BK21,manual
+"Object-Oriented Programming Systems Languages and Applications (OOPSLA)",2025-05-15,2025-05-22,2025-08-15,2025-09-15,2025-10-20,Portland USA,https://2025.splashcon.org/track/splash-2025-oopsla,2024:16.2%,BK21,manual
+"Programming Language Design and Implementation (PLDI)",2025-06-15,2025-06-22,2025-09-15,2025-10-15,2025-06-16,Seattle USA,https://pldi24.sigplan.org/,2024:15.7%,BK21,manual
+"Principles of Programming Languages (POPL)",2025-07-15,2025-07-22,2025-10-15,2025-11-15,2025-01-15,London UK,https://popl25.sigplan.org/,2024:14.1%,BK21,manual
+"Conference on Human Factors in Computing Systems (CHI)",2025-08-15,2025-08-22,2025-11-15,2025-12-15,2025-04-27,Hawaii USA,https://chi2025.acm.org/,2024:22.4%,BK21,manual
+"User Interface Software and Technology (UIST)",2025-09-15,2025-09-22,2025-12-15,2026-01-15,2025-10-20,Portland USA,https://uist.acm.org/uist2025/,2024:19.6%,BK21,manual
+"Ubiquitous Computing (UbiComp)",2025-10-15,2025-10-22,2026-01-15,2026-02-15,2025-09-07,Seoul Korea,https://ubicomp.org/ubicomp2025/,2024:18.3%,BK21,manual
+"Mobile Systems Applications and Services (MobiSys)",2025-11-15,2025-11-22,2026-02-15,2026-03-15,2025-06-18,Seattle USA,https://www.sigmobile.org/mobisys/2025/,2024:17.8%,BK21,manual
+"Mobile Computing and Networking (MobiCom)",2025-12-15,2025-12-22,2026-03-15,2026-04-15,2025-09-30,Seoul Korea,https://www.sigmobile.org/mobicom/2025/,2024:16.4%,BK21,manual
+"Embedded Networked Sensor Systems (SenSys)",2026-01-15,2026-01-22,2026-04-15,2026-05-15,2025-11-06,Seoul Korea,https://sensys.acm.org/2025/,2024:15.1%,BK21,manual
+"IEEE International Conference on Computer Communications (INFOCOM)",2025-01-15,2025-01-22,2025-04-15,2025-05-15,2025-05-26,San Francisco USA,https://infocom2025.ieee-infocom.org/,2024:13.8%,BK21,manual
+"Networked Systems Design and Implementation (NSDI)",2025-02-15,2025-02-22,2025-05-15,2025-06-15,2025-04-16,Seattle USA,https://www.usenix.org/conference/nsdi25,2024:12.9%,BK21,manual
+"Operating Systems Design and Implementation (OSDI)",2025-03-15,2025-03-22,2025-06-15,2025-07-15,2025-07-09,Seattle USA,https://www.usenix.org/conference/osdi25,2024:11.7%,BK21,manual
+"Symposium on Operating Systems Principles (SOSP)",2025-04-15,2025-04-22,2025-07-15,2025-08-15,2025-10-27,Seoul Korea,https://sosp2025.sigops.org/,2024:10.8%,BK21,manual
+"File and Storage Technologies (FAST)",2025-05-15,2025-05-22,2025-08-15,2025-09-15,2025-02-25,San Jose USA,https://www.usenix.org/conference/fast25,2024:13.2%,BK21,manual
+"International Symposium on Computer Architecture (ISCA)",2025-06-15,2025-06-22,2025-09-15,2025-10-15,2025-06-14,Seoul Korea,https://isca2025.eecs.umich.edu/,2024:12.5%,BK21,manual
+"International Symposium on Microarchitecture (MICRO)",2025-07-15,2025-07-22,2025-10-15,2025-11-15,2025-10-18,Seoul Korea,https://microarch.org/micro56/,2024:11.9%,BK21,manual
+"Architectural Support for Programming Languages and Operating Systems (ASPLOS)",2025-08-15,2025-08-22,2025-11-15,2025-12-15,2025-04-27,Seoul Korea,https://asplos-conference.org/,2024:10.3%,BK21,manual
+"Special Interest Group on Information Retrieval (SIGIR)",2025-09-15,2025-09-22,2025-12-15,2026-01-15,2025-07-14,Seoul Korea,https://sigir.org/sigir2025/,2024:15.8%,BK21,manual
+"Foundations of Software Engineering (FSE)",2025-10-15,2025-10-22,2026-01-15,2026-02-15,2025-11-17,Seoul Korea,https://2025.esec-fse.org/,2024:18.2%,BK21,manual
+"Automated Software Engineering (ASE)",2025-11-15,2025-11-22,2026-02-15,2026-03-15,2025-09-15,Seoul Korea,https://conf.researchr.org/home/ase-2025,2024:17.5%,BK21,manual
+"International Conference on Robotics and Automation (ICRA)",2025-12-15,2025-12-22,2026-03-15,2026-04-15,2025-05-26,Yokohama Japan,https://www.icra2025.org/,2024:20.1%,TopTier,manual
+"International Conference on Intelligent Robots and Systems (IROS)",2026-01-15,2026-01-22,2026-04-15,2026-05-15,2025-10-14,Seoul Korea,https://iros2025.org/,2024:19.3%,TopTier,manual
+"International Conference on Computer Graphics and Interactive Techniques (SIGGRAPH)",2026-02-15,2026-02-22,2026-05-15,2026-06-15,2025-07-27,Los Angeles USA,https://s2025.siggraph.org/,2024:21.7%,TopTier,manual
+"International Conference on Computer Graphics and Interactive Techniques in Asia (SIGGRAPH Asia)",2026-03-15,2026-03-22,2026-06-15,2026-07-15,2025-12-03,Seoul Korea,https://sa2025.siggraph.org/,2024:20.9%,TopTier,manual
+"International Conference on Distributed Computing Systems (ICDCS)",2026-04-15,2026-04-22,2026-07-15,2026-08-15,2025-06-16,Seoul Korea,https://icdcs2025.icdcs.org/,2024:18.6%,TopTier,manual
+"International Conference on Parallel Processing (ICPP)",2026-05-15,2026-05-22,2026-08-15,2026-09-15,2025-08-05,Seoul Korea,https://icpp2025.cs.ucr.edu/,2024:17.4%,TopTier,manual
+"International Conference on Distributed Computing and Networking (ICDCN)",2026-06-15,2026-06-22,2026-09-15,2026-10-15,2025-01-04,Seoul Korea,https://icdcn2025.iiitd.ac.in/,2024:16.8%,TopTier,manual
+"International Conference on Database Systems for Advanced Applications (DASFAA)",2026-07-15,2026-07-22,2026-10-15,2026-11-15,2025-04-22,Seoul Korea,https://dasfaa2025.org/,2024:15.9%,TopTier,manual
+"International Conference on Very Large Data Bases (VLDB)",2026-08-15,2026-08-22,2026-11-15,2026-12-15,2025-08-25,Seoul Korea,https://vldb.org/2025/,2024:14.7%,TopTier,manual
+"International Conference on Management of Data (SIGMOD)",2026-09-15,2026-09-22,2026-12-15,2027-01-15,2025-06-30,Seoul Korea,https://2025.sigmod.org/,2024:13.5%,TopTier,manual
+"International Conference on Extending Database Technology (EDBT)",2026-10-15,2026-10-22,2027-01-15,2027-02-15,2025-03-25,Seoul Korea,https://edbticdt2025.cs.uoi.gr/,2024:12.3%,TopTier,manual
+"International Conference on Information and Knowledge Management (CIKM)",2026-11-15,2026-11-22,2027-02-15,2027-03-15,2025-10-21,Seoul Korea,https://cikm2025.org/,2024:11.8%,TopTier,manual
+"International Conference on Web Search and Data Mining (WSDM)",2026-12-15,2026-12-22,2027-03-15,2027-04-15,2025-02-10,Seoul Korea,https://www.wsdm-conference.org/2025/,2024:11.2%,TopTier,manual
